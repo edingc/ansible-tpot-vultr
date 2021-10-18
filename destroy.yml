@@ -1,0 +1,29 @@
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - ./settings.yml
+
+  tasks:
+    - name: remove t-pot servers
+      delegate_to: localhost
+      vultr_server:
+        name: "{{ item.value.name }}"
+        state: absent
+        force: yes
+        api_key: "{{ vultr_api_key }}"
+      register: tpot
+      with_dict: "{{ servers }}"
+
+    - name: remove a records
+      delegate_to: localhost
+      cloudflare_dns:
+        zone:  "{{ domain }}"
+        record: "{{ item.vultr_server.region | lower | replace(' ','') }}"
+        type: A
+        value: "{{ item.vultr_server.v4_main_ip }}"
+        ttl: 1
+        account_email: "{{ cloudflare_email }}"
+        api_token: "{{ cloudflare_api_token }}"
+        state: absent
+      loop: "{{ tpot.results }}"

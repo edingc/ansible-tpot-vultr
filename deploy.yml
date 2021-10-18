@@ -1,0 +1,104 @@
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - ./settings.yml
+
+  tasks:
+    - name: create t-pot servers
+      delegate_to: localhost
+      vultr_server:
+        name: "{{ item.value.name }}"
+        os: Debian 10 x64 (buster) # https://api.vultr.com/v1/os/list
+        plan: "{{ default_plan }}"
+        ssh_keys:
+          - "{{ pubkey_alias }}"
+        region: "{{ item.value.region }}"
+        state: started
+        api_key: "{{ vultr_api_key }}"
+      register: tpot
+      with_dict: "{{ servers }}"
+
+    - name: create a records
+      delegate_to: localhost
+      cloudflare_dns:
+        zone:  "{{ domain }}"
+        record: "{{ item.vultr_server.region | lower | replace(' ','') }}"
+        type: A
+        value: "{{ item.vultr_server.v4_main_ip }}"
+        ttl: 1
+        account_email: "{{ cloudflare_email }}"
+        api_token: "{{ cloudflare_api_token }}"
+      loop: "{{ tpot.results }}"
+
+    - name: add newly provisioned server to hosts group
+      add_host:
+        name: "{{ item.vultr_server.v4_main_ip }}"
+        groups: "tpots"
+      loop: "{{ tpot.results }}"
+
+    - name: create empty hosts file on control server
+      copy:
+        dest: ./vultr_hosts
+        content: |
+          [tpots]
+
+    - name: add host to host file
+      lineinfile:
+        path: ./vultr_hosts
+        line: "{{ item.vultr_server.region | lower | replace(' ','') }}.{{ domain }}:64295 name={{ item.vultr_server.region | lower | replace(' ','') }}"
+      loop: "{{ tpot.results }}"
+
+    - name: pause for two minutes
+      pause:
+        minutes: 2
+
+- hosts: tpots
+  remote_user: root
+  gather_facts: no
+  vars_files:
+    - ./settings.yml
+
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+  tasks:
+
+    - name: disable firewall
+      ufw:
+        state: disabled
+
+    - name: Upgrade all apt packages
+      apt:
+        upgrade: dist
+
+    - name: install git
+      apt:
+        name: git
+        state: latest
+
+    - name: clone tpot
+      git:
+        repo: 'https://github.com/telekom-security/tpotce.git'
+        dest: /tmp/tpotce
+
+    - name: create tpot.conf
+      copy:
+        dest: /tmp/tpotce/iso/installer/tpot.conf
+        content: |
+          # tpot configuration file
+          # myCONF_TPOT_FLAVOR=[STANDARD, SENSOR, INDUSTRIAL, COLLECTOR, NEXTGEN, MEDICAL]
+          myCONF_TPOT_FLAVOR='STANDARD'
+          myCONF_WEB_USER='{{ tpot_web_user }}'
+          myCONF_WEB_PW='{{ tpot_web_pw }}'
+
+    - name: install tpot
+      shell:
+        cmd: ./install.sh --type=auto --conf=/tmp/tpotce/iso/installer/tpot.conf
+        chdir: /tmp/tpotce
+      notify: reboot host
+
+  handlers:
+
+    - name: reboot host
+      shell: shutdown -r +1 # stock ansible reboot command doesn't work well with tpot

@@ -1,0 +1,32 @@
+- hosts: tpots
+  remote_user: root
+  gather_facts: no
+  vars_files:
+    - ./settings.yml
+
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+  tasks:
+    - name: modify dump_es.sh to include hostname in tar filename
+      replace:
+        path: /opt/tpot/bin/dump_es.sh
+        regexp: ^tar cvf es_dump_\$myDATE.tar tmp\/.$
+        replace: tar cvf {{ name }}_es_dump_$myDATE.tar tmp/.
+        backup: yes
+
+    - name: modify dump_es.sh to output filename as last stdout_line
+      lineinfile:
+        path: /opt/tpot/bin/dump_es.sh
+        line: echo /opt/tpot/bin/{{ name }}_es_dump_$myDATE.tar
+
+    - name: run dump_es.sh script
+      command:
+        cmd: bash /opt/tpot/bin/dump_es.sh
+        chdir: /opt/tpot/bin
+      register: output
+
+    - name: download dump_es.sh output to desktop
+      fetch:
+        src: "{{ output.stdout_lines[-1] }}" # get last line
+        dest: ~/Desktop

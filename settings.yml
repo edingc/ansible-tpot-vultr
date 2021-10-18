@@ -1,0 +1,52 @@
+# vultr settings
+vultr_api_key: <vultr api key>
+default_plan: "16384 MB RAM,320 GB SSD,5.00 TB BW" # https://api.vultr.com/v1/plans/list?type=vc2
+pubkey_alias: <public key alias>
+
+# cloudflare settings
+cloudflare_email: <cloudflare account email>
+cloudflare_api_token: <cloudflare api token>
+domain: <domain>
+
+# tpot configuration
+tpot_web_user: "tsec"
+tpot_web_pw: "5up3r53cr3tPW!"
+
+# server list
+servers:
+  newjersey:
+    name: "tpot-nj"
+    region: "New Jersey"
+  losangeles:
+    name: "tpot-la"
+    region: "Los Angeles"
+  seoul:
+    name: "tpot-seoul"
+    region: "Seoul"
+  stockholm:
+    name: "tpot-stockholm"
+    region: "Stockholm"
+  singapore:
+    name: "tpot-singapore"
+    region: "Singapore"
+  toronto:
+    name: "tpot-toronto"
+    region: "Toronto"
+  amsterdam:
+    name: "tpot-amsterdam"
+    region: "Amsterdam"
+  paris:
+    name: "tpot-paris"
+    region: "Paris"
+  london:
+    name: "tpot-london"
+    region: "London"
+  frankfurt:
+    name: "tpot-frankfurt"
+    region: "Frankfurt"
+  tokyo:
+    name: "tpot-tokyo"
+    region: "Tokyo"
+  sydney:
+    name: "tpot-sydney"
+    region: "Sydney"
