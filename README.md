@@ -15,7 +15,7 @@
 
 <p align="center">
 
-<img src="https://github.com/edingc/ansible-tpot-vultr/raw/master/images/screenshot.png" alt="ansible-tpot-vultr Screen Shot" />
+<img src="https://github.com/edingc/ansible-tpot-vultr/blob/main/images/screenshot.png?raw=true" alt="ansible-tpot-vultr Screen Shot" />
 
 </p>
 
