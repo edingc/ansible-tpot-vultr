@@ -22,7 +22,7 @@
   <h3 align="center">ansible-tpot-vultr</h3>
 
   <p align="center">
-    A set of Ansible plays to deploy/collect/destory the T-Pot honeypot software on Vultr's cloud infrastructure.
+    A set of Ansible plays to deploy/collect/destroy the T-Pot honeypot software on Vultr's cloud infrastructure.
     <br />
     <a href="https://github.com/edingc/ansible-tpot-vultr/issues">Report Bug</a>
     ·
@@ -64,10 +64,10 @@ This playbook was developed using Ansible 2.11.5 on Mac OS X. It should run on a
 
 The following must be completed before running the playbook:
 
-- Accounts must exist at [Vultr](https://www.vultr.com/register/) and [Cloudflare](https://dash.cloudflare.com/sign-up)
-- Have a registered domain and [setup Cloudflare DNS](https://community.cloudflare.com/t/step-1-adding-your-domain-to-cloudflare/64309)
+- Accounts must exist at [Vultr](https://www.vultr.com/register/) and [Cloudflare](https://dash.cloudflare.com/sign-up).
+- Have a registered domain and [setup Cloudflare DNS](https://community.cloudflare.com/t/step-1-adding-your-domain-to-cloudflare/64309).
 - Obtain API keys/token with proper privileges for [Vultr](https://my.vultr.com/settings/#settingsapi) and [Cloudflare](https://developers.cloudflare.com/api/tokens/create). The Cloudflare token should have privileges to update your registered DNS zone.
-- [Setup public/private keys for Vultr instances](https://www.vultr.com/docs/deploy-a-new-server-with-an-ssh-key)
+- [Setup public/private keys for Vultr instances](https://www.vultr.com/docs/deploy-a-new-server-with-an-ssh-key).
 
 
 ### Installation
