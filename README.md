@@ -72,13 +72,13 @@ The following must be completed before running the playbook:
 
 ### Installation
 
-1. Clone the ansible-tpot-vultr
+1. Clone the ansible-tpot-vultr repository:
 ```sh
 git clone https://github.com/edingc/ansible-tpot-vultr.git
 ```
-2. Configure settings.yml with the necessary information
+2. Configure settings.yml with the necessary information.
 
-3. Run the Ansible playbook
+3. Run the Ansible playbook:
 ```sh
 ansible-playbook deploy.yml
 ```
@@ -113,11 +113,11 @@ ansible-playbook destroy.yml
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Fork the Project.
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`).
+4. Push to the Branch (`git push origin feature/AmazingFeature`).
+5. Open a Pull Request.
 
 
 <!-- LICENSE -->
@@ -135,10 +135,10 @@ Project Link: [https://github.com/edingc/ansible-tpot-vultr](https://github.com/
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* [Telekom Security](https://github.com/telekom-security/tpotce#ssh) for the T-Pot software
-* [Othneil Drew](https://github.com/othneildrew/Best-README-Template) for the great README.md template
+* [Telekom Security](https://github.com/telekom-security/tpotce#ssh) for the T-Pot software.
+* [Othneil Drew](https://github.com/othneildrew/Best-README-Template) for the great README.md template.
 * Numerous other websites, Google searches and StackOverflow posts that yielded individual bits and bobs
-necessary to get Ansible, Vultr, Cloudflare and T-Pot working together
+necessary to get Ansible, Vultr, Cloudflare and T-Pot working together.
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
